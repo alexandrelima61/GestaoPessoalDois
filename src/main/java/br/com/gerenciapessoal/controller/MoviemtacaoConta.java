@@ -5,7 +5,11 @@
  */
 package br.com.gerenciapessoal.controller;
 
+import br.com.gerenciapessoal.model.Conta;
+import br.com.gerenciapessoal.repository.Contas;
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
@@ -20,11 +24,27 @@ public class MoviemtacaoConta {
 
     private CartesianChartModel model;
 
+    @Inject
+    private Contas contas;
+
+    private List<Conta> listConta;
+
     public void preRender() {
+
+        listConta = contas.listaConta();
+
         this.model = new CartesianChartModel();
-        
-        addiconarSerie("Todos os pedidos");
-        addiconarSerie("Meus Pedidos");
+
+        for (Conta c : listConta) {
+            addiconarSerie("Ag: "+c.getAgencia().toString() + "/"
+                    + c.getDvAgencia()
+                    + " Cont: "+ c.getConta().toString() + "/"
+                    + c.getDvConta().toString() + "-"
+                    + " Banco "+c.getBanco().getNumBanco() + "-"
+                    + c.getBanco().getNome() + " "
+                    + " Tipo Cont: "+c.getTipoConta().getDescicao());
+        }
+
     }
 
     public CartesianChartModel getModel() {

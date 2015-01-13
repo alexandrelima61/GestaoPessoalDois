@@ -11,7 +11,6 @@ import br.com.gerenciapessoal.util.jpa.Transactional;
 import br.com.gerenciapessoal.util.service.NegocioException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.NoSuchElementException;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;

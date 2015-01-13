@@ -107,6 +107,7 @@ public class Lancamento implements Serializable {
 
     @NotNull
     @Temporal(TemporalType.DATE)
+    @Column(name = "data_emissao", nullable = false)
     public Date getDataEmissao() {
         return dataEmissao;
     }
@@ -117,6 +118,7 @@ public class Lancamento implements Serializable {
 
     @NotNull
     @Temporal(TemporalType.DATE)
+    @Column(name = "data_vencimento", nullable = false)
     public Date getDataVencimento() {
         return dataVencimento;
     }

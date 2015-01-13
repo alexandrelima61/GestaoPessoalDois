@@ -5,13 +5,11 @@
  */
 package br.com.gerenciapessoal.controller;
 
-import br.com.gerenciapessoal.model.Conta;
 import br.com.gerenciapessoal.model.Lancamento;
 import br.com.gerenciapessoal.repository.Lancamentos;
 import br.com.gerenciapessoal.repository.filter.LancamentoFilter;
 import br.com.gerenciapessoal.service.CadastroContaService;
 import br.com.gerenciapessoal.util.jsf.FacesUtil;
-import br.com.gerenciapessoal.util.service.NegocioException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
