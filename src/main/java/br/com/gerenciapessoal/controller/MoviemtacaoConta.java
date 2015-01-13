@@ -7,7 +7,13 @@ package br.com.gerenciapessoal.controller;
 
 import br.com.gerenciapessoal.model.Conta;
 import br.com.gerenciapessoal.repository.Contas;
+import br.com.gerenciapessoal.repository.Lancamentos;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,10 +28,15 @@ import org.primefaces.model.chart.ChartSeries;
 @RequestScoped
 public class MoviemtacaoConta {
 
-    private CartesianChartModel model;
+    private static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM");
+
+    @Inject
+    private Lancamentos lancamentos;
 
     @Inject
     private Contas contas;
+
+    private CartesianChartModel model;
 
     private List<Conta> listConta;
 
@@ -35,14 +46,15 @@ public class MoviemtacaoConta {
 
         this.model = new CartesianChartModel();
 
-        for (Conta c : listConta) {
-            addiconarSerie("Ag: "+c.getAgencia().toString() + "/"
-                    + c.getDvAgencia()
-                    + " Cont: "+ c.getConta().toString() + "/"
-                    + c.getDvConta().toString() + "-"
-                    + " Banco "+c.getBanco().getNumBanco() + "-"
-                    + c.getBanco().getNome() + " "
-                    + " Tipo Cont: "+c.getTipoConta().getDescicao());
+        for (Conta conta : listConta) {
+            addiconarSerie("Ag: " + conta.getAgencia().toString() + "/"
+                    + conta.getDvAgencia()
+                    + " Cont: " + conta.getConta().toString() + "/"
+                    + conta.getDvConta().toString() + "-"
+                    + " Banco " + conta.getBanco().getNumBanco() + "-"
+                    + conta.getBanco().getNome() + " "
+                    + " Tipo Cont: " + conta.getTipoConta().getDescicao(),
+                    conta);
         }
 
     }
@@ -51,14 +63,14 @@ public class MoviemtacaoConta {
         return model;
     }
 
-    private void addiconarSerie(String rotulo) {
+    private void addiconarSerie(String rotulo, Conta c) {
+        Map<Date, BigDecimal> valoresPorData = this.lancamentos.valoresTotaisPorData(15, c);
+
         ChartSeries series = new ChartSeries(rotulo);
 
-        series.set("1", Math.random() * 1000);
-        series.set("2", Math.random() * 1000);
-        series.set("3", Math.random() * 1000);
-        series.set("4", Math.random() * 1000);
-        series.set("5", Math.random() * 1000);
+        for (Date data : valoresPorData.keySet()) {
+            series.set(DATE_FORMAT.format(data), valoresPorData.get(data));
+        }
 
         this.model.addSeries(series);
     }

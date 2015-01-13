@@ -49,6 +49,7 @@ public class HistLancamentoBean implements Serializable {
             lancamentosFiltrados = lancamentos.lancamentoFiltrados(filterLanc);
             calculaSaldoEmconta();
         } catch (NoSuchElementException e) {
+            saldoConta = BigDecimal.ZERO;
             FacesUtil.addErrorMessage("Para esta conta selecionada, não há movimentação!");
         }
     }

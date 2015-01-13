@@ -6,7 +6,6 @@
 package br.com.gerenciapessoal.model;
 
 import br.com.gerenciapessoal.enumeradores.TipoLancamento;
-import java.beans.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -195,19 +194,19 @@ public class Lancamento implements Serializable {
         if (lExtorno) {
             if (this.getTipoMov().getTpES().equals("DESPESA")) {
                 //Caso extorno devolvo saldo para a conta
-                this.getConta().setSaldo(saldoConta.add(this.getConta().getSaldo()));
+                this.getConta().setSaldo(saldoConta.subtract(this.getConta().getSaldo()));
             } else {
                 //Caso extorno devolvo saldo para a conta
-                this.getConta().setSaldo(this.getConta().getSaldo().subtract(saldoConta));
+                this.getConta().setSaldo(this.getConta().getSaldo().add(saldoConta));
 
             }
         } else {
             if (this.getTipoMov().getTpES().equals("DESPESA")) {
                 //Caso despesa subtraio do saldo da conta
-                this.getConta().setSaldo(this.getConta().getSaldo().subtract(saldoConta));
+                this.getConta().setSaldo(this.getConta().getSaldo().add(saldoConta));
             } else {
                 //Caso receita adciono ao saldo da conta
-                this.getConta().setSaldo(saldoConta.add(this.getConta().getSaldo()));
+                this.getConta().setSaldo(saldoConta.subtract(this.getConta().getSaldo()));
             }
         }
     }
@@ -217,6 +216,13 @@ public class Lancamento implements Serializable {
             return "Ok";
         } else {
             return "Pendente";
+        }
+    }
+
+    public void atualizaTotais() {
+        if (this.getTipoMov().getTpES().equals("DESPESA")) {
+            setValorLanca(getValorLanca().multiply(new BigDecimal(-1.0)));
+            setVlTotal(getVlTotal().multiply(new BigDecimal(-1.0)));
         }
     }
 }

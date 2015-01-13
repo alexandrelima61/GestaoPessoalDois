@@ -5,19 +5,32 @@
  */
 package br.com.gerenciapessoal.repository;
 
+import br.com.gerenciapessoal.model.Conta;
 import br.com.gerenciapessoal.model.Lancamento;
+import br.com.gerenciapessoal.model.vo.DataValor;
 import br.com.gerenciapessoal.repository.filter.LancamentoFilter;
 import br.com.gerenciapessoal.util.jpa.Transactional;
 import br.com.gerenciapessoal.util.service.NegocioException;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import org.apache.commons.lang.time.DateUtils;
+import org.eclipse.jdt.internal.core.util.Messages;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
+import org.hibernate.type.Type;
 
 /**
  *
@@ -72,5 +85,54 @@ public class Lancamentos implements Serializable {
 
     public Lancamento porId(Long id) {
         return manager.find(Lancamento.class, id);
+    }
+
+    @SuppressWarnings("UnusedAssignment")
+    public Map<Date, BigDecimal> valoresTotaisPorData(Integer numeroDeDias, Conta conta) {
+        Session session = manager.unwrap(Session.class);
+
+        Calendar dataInicial = Calendar.getInstance();
+        dataInicial = DateUtils.truncate(dataInicial, Calendar.DAY_OF_MONTH);
+        dataInicial.add(Calendar.DAY_OF_MONTH, numeroDeDias * -1);
+
+        Map<Date, BigDecimal> resultado = criarMapaVazio(numeroDeDias, dataInicial);
+
+        Criteria criteria = session.createCriteria(Lancamento.class)
+                .createAlias("conta", "c");
+
+        criteria.setProjection(Projections.projectionList()
+                .add(Projections.sqlGroupProjection("date(data_emissao) as data",
+                                "date(data_emissao)",
+                                new String[]{"data"},
+                                new Type[]{StandardBasicTypes.DATE}))
+                .add(Projections.sum("valorLanca").as("valor")))
+                .add(Restrictions.ge("dataEmissao", dataInicial.getTime()));
+
+        if (conta != null) {
+            criteria.add(Restrictions.eq("c.id", conta.getId()));
+        }
+        List<DataValor> valoresPorData = criteria
+                .setResultTransformer(Transformers.aliasToBean(DataValor.class)).list();
+
+        for (DataValor dataValor : valoresPorData) {
+            resultado.put(dataValor.getData(), dataValor.getValor());
+        }
+
+        return resultado;
+    }
+
+    private static Map<Date, BigDecimal> criarMapaVazio(Integer numeroDeDias,
+            Calendar dataInicial) {
+
+        dataInicial = (Calendar) dataInicial.clone();
+
+        Map<Date, BigDecimal> mapaInicial = new TreeMap<>();
+
+        for (int i = 0; i < numeroDeDias; i++) {
+            mapaInicial.put(dataInicial.getTime(), BigDecimal.ZERO);
+            dataInicial.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        return mapaInicial;
     }
 }

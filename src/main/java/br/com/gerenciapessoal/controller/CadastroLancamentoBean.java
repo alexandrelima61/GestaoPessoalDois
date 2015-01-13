@@ -65,6 +65,8 @@ public class CadastroLancamentoBean implements Serializable {
     }
 
     public void Salvar() {
+        this.lancamento.atualizaTotais();
+        
         this.lancamento = cadastroLancamentoService.salvar(lancamento);
 
         lancamento.atualizarSaldoConta(false);
@@ -93,7 +95,7 @@ public class CadastroLancamentoBean implements Serializable {
             tipoLancamento = "Dispesa";
             lancamento.setTipoMov(TipoLancamento.D);
             if (((lancamento.getValorLanca() != new BigDecimal(BigInteger.ZERO) && (lancamento.getValorLanca() != null)))
-                    && ((lancamento.getVlTotal() != new BigDecimal(BigInteger.ZERO) && (lancamento.getVlTotal() != null)))) {
+                    && ((lancamento.getVlTotal() != new BigDecimal(BigInteger.ZERO) && (lancamento.getVlTotal() != null)))) {                
                 lancamento.valorizaSaldo();
             }
         } catch (NullPointerException npe) {
