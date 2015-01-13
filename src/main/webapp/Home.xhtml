@@ -6,10 +6,18 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="titulo">Dashboard</ui:define>
+    <f:metadata>
+        <f:viewParam name="dummy"/>
+        <f:event listener="#{moviemtacaoConta.preRender}" type="preRenderView" />
+    </f:metadata>
 
+
+    <ui:define name="titulo">Dashboard</ui:define>
+    
     <ui:define name="corpo">
-        <p>Seja Bem Vindo!</p> 
+        <p:lineChart value="#{moviemtacaoConta.model}" title="Teste Grafico"
+                     style="height: 400px;" animate="true" minY="0" legendPosition="e"/>
+
     </ui:define>
 
 </ui:composition>
