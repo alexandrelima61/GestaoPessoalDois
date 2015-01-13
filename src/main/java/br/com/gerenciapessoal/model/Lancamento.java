@@ -194,9 +194,11 @@ public class Lancamento implements Serializable {
         if (lExtorno) {
             if (this.getTipoMov().getTpES().equals("DESPESA")) {
                 //Caso extorno devolvo saldo para a conta
-                this.getConta().setSaldo(saldoConta.subtract(this.getConta().getSaldo()));
+                saldoConta = saldoConta.multiply(new BigDecimal(-1.00));
+                this.getConta().setSaldo(saldoConta.add(this.getConta().getSaldo()));
             } else {
                 //Caso extorno devolvo saldo para a conta
+                saldoConta = saldoConta.multiply(new BigDecimal(-1.00));
                 this.getConta().setSaldo(this.getConta().getSaldo().add(saldoConta));
 
             }
@@ -206,7 +208,7 @@ public class Lancamento implements Serializable {
                 this.getConta().setSaldo(this.getConta().getSaldo().add(saldoConta));
             } else {
                 //Caso receita adciono ao saldo da conta
-                this.getConta().setSaldo(saldoConta.subtract(this.getConta().getSaldo()));
+                this.getConta().setSaldo(saldoConta.add(this.getConta().getSaldo()));
             }
         }
     }
