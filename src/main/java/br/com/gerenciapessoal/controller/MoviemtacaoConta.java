@@ -48,11 +48,11 @@ public class MoviemtacaoConta {
 
         for (Conta conta : listConta) {
             addiconarSerie("Ag: " + conta.getAgencia().toString() + "/"
-                    + conta.getDvAgencia()
+                    + conta.getDvAgencia() + "-"
                     + " Cont: " + conta.getConta().toString() + "/"
                     + conta.getDvConta().toString() + "-"
                     + " Banco " + conta.getBanco().getNumBanco() + "-"
-                    + conta.getBanco().getNome() + " "
+                    + conta.getBanco().getNome() + "-"
                     + " Tipo Cont: " + conta.getTipoConta().getDescicao(),
                     conta);
         }
