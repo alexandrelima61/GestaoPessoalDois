@@ -61,14 +61,11 @@ public class Lancamentos implements Serializable {
             if (filterLanc.getEmissaoate() != null) {
                 criteria.add(Restrictions.le("dataEmissao", filterLanc.getEmissaoate()));
             }
-
         } else {
             throw new NegocioException("Você deve selecionar uma conta\n"
                     + "antes de proceguir!");
         }
-
         return criteria.addOrder(Order.asc("dataEmissao")).list();
-
     }
 
     @Transactional

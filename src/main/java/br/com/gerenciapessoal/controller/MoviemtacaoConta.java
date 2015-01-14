@@ -28,7 +28,7 @@ import org.primefaces.model.chart.ChartSeries;
 @RequestScoped
 public class MoviemtacaoConta {
 
-    private static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM");
 
     @Inject
     private Lancamentos lancamentos;
@@ -48,11 +48,11 @@ public class MoviemtacaoConta {
 
         for (Conta conta : listConta) {
             addiconarSerie("Ag: " + conta.getAgencia().toString() + "/"
-                    + conta.getDvAgencia() + "-"
+                    + conta.getDvAgencia() + " -"
                     + " Cont: " + conta.getConta().toString() + "/"
-                    + conta.getDvConta().toString() + "-"
+                    + conta.getDvConta().toString() + " -"
                     + " Banco " + conta.getBanco().getNumBanco() + "-"
-                    + conta.getBanco().getNome() + "-"
+                    + conta.getBanco().getNome() + " -"
                     + " Tipo Cont: " + conta.getTipoConta().getDescicao(),
                     conta);
         }
