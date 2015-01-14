@@ -9,7 +9,6 @@ import br.com.gerenciapessoal.model.Banco;
 import br.com.gerenciapessoal.repository.Bancos;
 import br.com.gerenciapessoal.util.jpa.Transactional;
 import java.io.Serializable;
-import java.util.List;
 import javax.inject.Inject;
 
 /**

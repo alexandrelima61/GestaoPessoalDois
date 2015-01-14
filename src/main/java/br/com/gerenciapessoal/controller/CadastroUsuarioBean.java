@@ -7,6 +7,10 @@ package br.com.gerenciapessoal.controller;
 
 import br.com.gerenciapessoal.model.Grupo;
 import br.com.gerenciapessoal.model.Usuario;
+import br.com.gerenciapessoal.repository.Grupos;
+import br.com.gerenciapessoal.repository.Usuarios;
+import br.com.gerenciapessoal.service.CadastroUsuarioService;
+import br.com.gerenciapessoal.util.jsf.FacesUtil;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +18,6 @@ import java.util.List;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 
 /**
  *
@@ -24,17 +27,37 @@ import javax.persistence.EntityManager;
 @ViewScoped
 public class CadastroUsuarioBean implements Serializable {
 
-    @Inject
-    private EntityManager manager;
-
     private Usuario usuario;
 
+    @Inject
+    private Usuarios usuarios;
+
+    @Inject
+    private CadastroUsuarioService cadastroUsuarioService;
+
     private List<Grupo> gruposDisponiveis;
+
+    private String confirmeSenha;
+    private boolean hblBtnSalvar;
+
+    @Inject
+    private Grupos grupos;
 
     private Grupo novoGrupo;
 
     public CadastroUsuarioBean() {
         limpar();
+    }
+
+    public void validaSenha() {
+        if (((this.usuario.getSenha() != null) && (confirmeSenha != null))) {
+            if (!this.usuario.getSenha().equals(confirmeSenha)) {
+                hblBtnSalvar = true;
+                FacesUtil.addErrorMessage("As Senhas não conferem, favor, verificar para proseguir!");
+            } else {
+                hblBtnSalvar = false;
+            }
+        }
     }
 
     public Usuario getUsuario() {
@@ -45,8 +68,25 @@ public class CadastroUsuarioBean implements Serializable {
         this.usuario = usuario;
     }
 
+    public String getConfirmeSenha() {
+        return confirmeSenha;
+    }
+
+    public void setConfirmeSenha(String confirmeSenha) {
+        this.confirmeSenha = confirmeSenha;
+    }
+
+    public boolean isHblBtnSalvar() {
+        return hblBtnSalvar;
+    }
+
+    public void setHblBtnSalvar(boolean hblBtnSalvar) {
+        this.hblBtnSalvar = hblBtnSalvar;
+    }
+
     private void limpar() {
         setUsuario(new Usuario());
+        hblBtnSalvar = false;
     }
 
     /**
@@ -71,8 +111,11 @@ public class CadastroUsuarioBean implements Serializable {
         this.gruposDisponiveis = gruposDisponiveis;
     }
 
-    public void salvar() {
-
+    public void salvarUsuario() {
+        this.usuario.setSenha(CadastroUsuarioService.md5(this.usuario.getSenha()));
+        this.usuario = cadastroUsuarioService.salvaUsuario(usuario);
+        limpar();
+        FacesUtil.addInfoMessage("Usuário cadastrado com sucesso!");
     }
 
     public void adicionarGrupo() {
@@ -84,8 +127,9 @@ public class CadastroUsuarioBean implements Serializable {
     }
 
     public void inicializar() {
-        gruposDisponiveis = manager.createQuery("from Grupo", Grupo.class).getResultList();
-
+        if (FacesUtil.isNotPostback()) {
+            gruposDisponiveis = grupos.todos();
+        }
     }
 
 }

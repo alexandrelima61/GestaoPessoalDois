@@ -6,26 +6,31 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="titulo">Cadastro de Usuário</ui:define>
+    <ui:define name="titulo">#{cadastroUsuarioBean.editando ? 'Edição de usuário' : 'Novo usuário'}</ui:define>
 
     <ui:define name="corpo">
         <f:metadata>
-            <f:event listener="#{cadastroUsuarioBean.inicializar}" type="preRenderView" />            
+            <f:event listener="#{cadastroUsuarioBean.inicializar}"
+                     type="preRenderView" />
         </f:metadata>
-        
-        
+
+
         <h:form id="frmCadastroUsuario">
-            <h1>Cadastro de Usuário</h1>
-            <p:messages autoUpdate="true" closable="true"/>
+            <h1>#{cadastroUsuarioBean.editando ? 'Edição de usuário' : 'Novo
+                  usuário'}</h1>
+            <p:messages autoUpdate="true" closable="true" />
 
             <p:toolbar style="margin-top: 20px">
                 <p:toolbarGroup>
-                    <p:button value="Novo" icon="ui-icon-circle-plus" outcome="/usuarios/CadastroUsuario" />
+                    <p:button value="Novo" icon="ui-icon-circle-plus"
+                              outcome="/usuarios/CadastroUsuario" />
                     <p:commandButton value="Salvar" id="botaoSalvar" ajax="true"
-                                     icon="ui-icon-disk" update="@form"/>
+                                     disabled="#{cadastroUsuarioBean.hblBtnSalvar}"
+                                     action="#{cadastroUsuarioBean.salvarUsuario}" icon="ui-icon-disk"
+                                     update="@form" />
                 </p:toolbarGroup>
                 <p:toolbarGroup align="right">
-                    <!--p:button é botão de navegação e não de ação-->
+                    <!--p:button Ã© botÃ£o de navegaÃ§Ã£o e nÃ£o de aÃ§Ã£o-->
                     <p:button value="Pesquisa" icon="ui-icon-search" />
                 </p:toolbarGroup>
             </p:toolbar>
@@ -33,57 +38,65 @@
             <p:panelGrid columns="2" id="painel"
                          style="width: 100%;margin-top: 20px;" columnClasses="rotulo, campo">
                 <p:outputLabel value="Nome" for="nome" />
-                <p:inputText id="nome" size="50" maxlength="50" />
+                <p:inputText id="nome" size="50" maxlength="50"
+                             value="#{cadastroUsuarioBean.usuario.nome}" />
 
                 <p:outputLabel value="E-mail" for="email" />
-                <p:inputText id="email" size="50" maxlength="50" />
+                <p:inputText id="email" size="50" maxlength="50"
+                             value="#{cadastroUsuarioBean.usuario.email}" />
+
                 <p:outputLabel value="Senha" for="senha" />
-                <p:password id="senha" size="20" maxlength="20" 
-                            required="true" feedback="true" weakLabel="Facra"
-                            goodLabel="Boa" strongLabel="Forte" 
-                            promptLabel="Informe uma Senha" inline="true" />
+                <p:password id="senha" size="20" maxlength="20" required="true"
+                            feedback="true" weakLabel="Facra" goodLabel="Boa"
+                            strongLabel="Forte" promptLabel="Informe uma Senha" inline="true"
+                            value="#{cadastroUsuarioBean.usuario.senha}">
+                    <p:ajax event="change" process="@this" update="botaoSalvar"
+                            listener="#{cadastroUsuarioBean.validaSenha}" />
+                </p:password>
 
                 <p:outputLabel value="Confiormação de Senha" for="confSenha" />
-                <p:password id="confSenha" size="20" maxlength="20"/>
+                <p:password id="confSenha" size="20" maxlength="20"
+                            value="#{cadastroUsuarioBean.confirmeSenha}">
+                    <p:ajax event="change" process="@this" update="botaoSalvar"
+                            listener="#{cadastroUsuarioBean.validaSenha}" />
+                </p:password>
 
-                <p:selectOneMenu style="width: 150px" >
-                    <f:selectItem itemLabel="Selecione" />
+                <p:selectOneMenu style="width: 150px"
+                                 value="#{cadastroUsuarioBean.novoGrupo}">
+                    <f:selectItem itemLabel="Selecione" itemValue="" />
                     <f:selectItems value="#{cadastroUsuarioBean.gruposDisponiveis}"
-                                   var="grupo" itemLabel="#{grupo.nome}" 
-                                   itemValue="#{grupo}"/>
-                                    
+                                   var="grupo" itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
                 </p:selectOneMenu>
-                
-                
-                
                 <h:panelGroup>
-                    <p:commandButton value="Adicionar Grupo" 
-                                     update="@form"/>
-                    <!--
-                    <p:commandButton value="Novo Grupo" 
-                                     icon="ui-icon-disk" update="@form"/>-->
+                    <p:commandButton value="Adicionar Grupo"
+                                     action="#{cadastroUsuarioBean.adicionarGrupo}" update="tblGrupos" />
                 </h:panelGroup>
             </p:panelGrid>
 
-            <p:dataTable style="margin-top: 20px;" paginatorPosition="bottom" 
-                         id="tblGrupos" paginatorAlwaysVisible="false" rows="20" 
-                         emptyMessage="Nenhum grupo informado">
+            <p:dataTable style="margin-top: 20px;" paginatorPosition="bottom"
+                         id="tblGrupos" paginatorAlwaysVisible="false" rows="20"
+                         emptyMessage="Nenhum grupo informado" rowIndexVar="index"
+                         value="#{cadastroUsuarioBean.usuario.grupos}" var="grupo">
+
                 <p:column headerText="Grupo" style="text-align: left">
                     <h:outputText value="#{grupo.descricao}" />
                 </p:column>
+
                 <p:column style="text-align: center; width: 100px">
                     <p:button icon="ui-icon-pencil" title="Editar" />
                     <p:commandButton icon="ui-icon-trash" title="Excluir"
-                                     oncomplete="confirmacaoExclusao.show()"/>
+                                     oncomplete="confirmacaoExclusao.show()" />
                 </p:column>
             </p:dataTable>
 
-            <p:confirmDialog header="Exclusão de usuário"
-                             message="Tem certeza que deseja excluir o usuário"
+            <p:confirmDialog header="Exclusão de grupo de usuário"
+                             showEffect="explode" hideEffect="explode"
+                             message="Tem certeza que deseja excluir este grupo 
+                                        (#{cadastroUsuarioBean.usuario.grupos}) do usuário?"
                              widgetVar="confirmacaoExclusao">
                 <p:button value="Não"
                           onclick="confirmacaoExclusao.hide();
-                                  return false;" />
+                                                return false;" />
                 <p:commandButton value="Sim" oncomplete="confirmacaoExclusao.hide()" />
             </p:confirmDialog>
 
