@@ -61,15 +61,16 @@
                             listener="#{cadastroUsuarioBean.validaSenha}" />
                 </p:password>
 
-                <p:selectOneMenu style="width: 150px"
-                                 value="#{cadastroUsuarioBean.novoGrupo}">
-                    <f:selectItem itemLabel="Selecione" itemValue="" />
+                <p:selectOneMenu style="width: 150px" value="#{cadastroUsuarioBean.novoGrupo}">
+                    <f:selectItem itemLabel="Selecione" />
                     <f:selectItems value="#{cadastroUsuarioBean.gruposDisponiveis}"
-                                   var="grupo" itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
+                                   var="grupo" itemLabel="#{grupo.nome}" itemValue="#{grupo}"/>
                 </p:selectOneMenu>
+
                 <h:panelGroup>
                     <p:commandButton value="Adicionar Grupo"
-                                     action="#{cadastroUsuarioBean.adicionarGrupo}" update="tblGrupos" />
+                                     action="#{cadastroUsuarioBean.adicionarGrupo}" 
+                                     update="@form" />
                 </h:panelGroup>
             </p:panelGrid>
 
@@ -84,19 +85,19 @@
 
                 <p:column style="text-align: center; width: 100px">
                     <p:button icon="ui-icon-pencil" title="Editar" />
-                    <p:commandButton icon="ui-icon-trash" title="Excluir"
+                    <p:commandButton icon="ui-icon-trash" title="Excluir"                                      
                                      oncomplete="confirmacaoExclusao.show()" />
                 </p:column>
             </p:dataTable>
 
-            <p:confirmDialog header="Exclusão de grupo de usuário"
+            <p:confirmDialog header="Exclusão de grupo de usuário" id="confirmeExclGrupo"
                              showEffect="explode" hideEffect="explode"
                              message="Tem certeza que deseja excluir este grupo 
-                                        (#{cadastroUsuarioBean.usuario.grupos}) do usuário?"
+                             (#{cadastroUsuarioBean.usuario.grupos}) do usuário?"
                              widgetVar="confirmacaoExclusao">
                 <p:button value="Não"
                           onclick="confirmacaoExclusao.hide();
-                                                return false;" />
+                                  return false;" />
                 <p:commandButton value="Sim" oncomplete="confirmacaoExclusao.hide()" />
             </p:confirmDialog>
 
