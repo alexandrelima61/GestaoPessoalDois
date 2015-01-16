@@ -16,6 +16,7 @@ import br.com.gerenciapessoal.util.jsf.FacesUtil;
 import java.io.IOException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ViewScoped;
@@ -66,6 +67,9 @@ public class CadastroUsuarioBean implements Serializable {
     private boolean hblBtnSalvar;
 
     private Grupo novoGrupo;
+    private List<Grupo> grupo;
+
+    private Grupo grupoSelecionado;
 
     public CadastroUsuarioBean() {
         limpar();
@@ -90,6 +94,14 @@ public class CadastroUsuarioBean implements Serializable {
         this.usuario = usuario;
     }
 
+    public List<Grupo> getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(List<Grupo> grupo) {
+        this.grupo = grupo;
+    }
+
     public String getConfirmeSenha() {
         return confirmeSenha;
     }
@@ -106,9 +118,12 @@ public class CadastroUsuarioBean implements Serializable {
         this.hblBtnSalvar = hblBtnSalvar;
     }
 
-    private void limpar() {
-        setUsuario(new Usuario());
-        hblBtnSalvar = false;
+    public Grupo getGrupoSelecionado() {
+        return grupoSelecionado;
+    }
+
+    public void setGrupoSelecionado(Grupo grupoSelecionado) {
+        this.grupoSelecionado = grupoSelecionado;
     }
 
     /**
@@ -142,6 +157,7 @@ public class CadastroUsuarioBean implements Serializable {
 
     public void adicionarGrupo() {
         this.usuario.getGrupos().add(novoGrupo);
+        this.grupo.add(novoGrupo);
     }
 
     public boolean isEditando() {
@@ -168,8 +184,15 @@ public class CadastroUsuarioBean implements Serializable {
 
                     facesContext.responseComplete();
                 } else {
+                    for (Grupo g : usuarioLogado.getUsuario().getGrupos()) {
+                        this.grupo.add(g);
+                    }
                     gruposDisponiveis = grupos.todos();
                     confirmeSenha = usuarioLogado.getUsuario().getSenha();
+                }
+            } else {
+                for (Grupo g : usuarioLogado.getUsuario().getGrupos()) {
+                    this.grupo.add(g);
                 }
             }
         }
@@ -185,6 +208,12 @@ public class CadastroUsuarioBean implements Serializable {
             }
         }
         return lAdm;
+    }
+
+    private void limpar() {
+        setUsuario(new Usuario());
+        grupo = new ArrayList<>();
+        hblBtnSalvar = false;
     }
 
 }

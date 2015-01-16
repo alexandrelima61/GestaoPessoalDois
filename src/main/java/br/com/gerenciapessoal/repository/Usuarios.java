@@ -69,6 +69,8 @@ public class Usuarios implements Serializable {
     public void remover(Usuario usuario) {
         try {
             usuario = porId(usuario.getId());
+            //manager.remove(usuario().getGrupos());
+            
             manager.remove(usuario);
             manager.flush();
         } catch (PersistenceException e) {

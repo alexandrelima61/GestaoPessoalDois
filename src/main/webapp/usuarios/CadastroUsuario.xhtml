@@ -74,15 +74,15 @@
                 <h:panelGroup>
                     <p:commandButton value="Adicionar Grupo"
                                      action="#{cadastroUsuarioBean.adicionarGrupo}" 
-                                     update="@form" 
+                                     update="@form"
                                      disabled="#{cadastroUsuarioBean.adm}"/>
                 </h:panelGroup>
             </p:panelGrid>
 
             <p:dataTable style="margin-top: 20px;" paginatorPosition="bottom"
-                         id="tblGrupos" paginatorAlwaysVisible="false" rows="20"
+                         id="tblGrupos" paginatorAlwaysVisible="false" rows="20" 
                          emptyMessage="Nenhum grupo informado" rowIndexVar="index"
-                         value="#{cadastroUsuarioBean.usuario.grupos}" var="grupo">
+                         value="#{cadastroUsuarioBean.grupo}" var="grupo">
 
                 <p:column headerText="Grupo" style="text-align: left">
                     <h:outputText value="#{grupo.descricao}" />
@@ -91,16 +91,19 @@
                 <p:column style="text-align: center; width: 100px">
                     <p:button icon="ui-icon-pencil" title="Editar" 
                               disabled="#{cadastroUsuarioBean.adm}"/>
-                    <p:commandButton icon="ui-icon-trash" title="Excluir"                                      
-                                     oncomplete="confirmacaoExclusao.show()" 
-                                     disabled="#{cadastroUsuarioBean.adm}"/>
+                    <p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()" 
+                                     process="@this" update=":frmCadastroUsuario:confirmeExclGrupo"
+                                     disabled="#{cadastroUsuarioBean.adm}">
+                        <f:setPropertyActionListener target="#{cadastroUsuarioBean.grupoSelecionado}"
+                                                     value="grupo"/>
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
 
             <p:confirmDialog header="Exclusão de grupo de usuário" id="confirmeExclGrupo"
                              showEffect="explode" hideEffect="explode"
                              message="Tem certeza que deseja excluir este grupo 
-                             (#{cadastroUsuarioBean.usuario.grupos}) do usuário?"
+                             (#{cadastroUsuarioBean.grupoSelecionado.descricao}) do usuário?"
                              widgetVar="confirmacaoExclusao">
                 <p:button value="Não"
                           onclick="confirmacaoExclusao.hide();

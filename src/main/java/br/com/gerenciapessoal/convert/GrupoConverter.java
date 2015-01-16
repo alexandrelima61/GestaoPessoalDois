@@ -5,7 +5,6 @@
  */
 package br.com.gerenciapessoal.convert;
 
-
 import br.com.gerenciapessoal.model.Grupo;
 import br.com.gerenciapessoal.repository.Grupos;
 import br.com.gerenciapessoal.util.cdi.CDIServiceLocator;
@@ -44,7 +43,7 @@ public class GrupoConverter implements Converter {
     public String getAsString(FacesContext fc, UIComponent uic, Object o) {
         if (o != null) {
             Grupo grupo = (Grupo) o;
-            return grupo.getNome().toString();
+            return grupo.getId() == null ? null : grupo.getId().toString();
         }
         return "";
     }

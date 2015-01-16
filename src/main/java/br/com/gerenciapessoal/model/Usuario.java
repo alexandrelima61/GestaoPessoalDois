@@ -79,7 +79,7 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "grupo_id"))
     public List<Grupo> getGrupos() {
@@ -112,6 +112,7 @@ public class Usuario implements Serializable {
         return true;
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public static String md5(String input) {
         String md5 = null;
         if (null == input) {
