@@ -36,7 +36,9 @@
         <intercept-url pattern="/Home.xhtml" access="isAuthenticated()"/>
         <intercept-url pattern="/AcessoNegado.xhtml" access="isAuthenticated()"/>
         
-        <intercept-url pattern="/usuarios/**" access="hasAnyRole('ADMINISTRADORES')" />
+        <intercept-url pattern="/usuarios/CadastroUsuario.xhtml" access="isAuthenticated()" />
+        <intercept-url pattern="/usuarios/PesquisaUsuario.xhtml" access="hasAnyRole('ADMINISTRADORES')" />
+        <intercept-url pattern="/banco/CadastroBanco.xhtml" access="hasAnyRole('ADMINISTRADORES')"/>
         <intercept-url pattern="/banco/CadastroBanco.xhtml" access="hasAnyRole('ADMINISTRADORES')"/>
         <intercept-url pattern="/banco/PesquisaBanco.xhtml" access="hasAnyRole('COMUN','ADMINISTRADORES')"/>
         

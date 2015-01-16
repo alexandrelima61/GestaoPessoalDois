@@ -45,7 +45,7 @@ public class Seguranca {
 
     @Produces
     @UsuarioLogado
-    private UsuarioSistema getNomeUsuarioLogado() {
+    public UsuarioSistema getNomeUsuarioLogado() {
         UsuarioSistema usuario = null;
 
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) 
