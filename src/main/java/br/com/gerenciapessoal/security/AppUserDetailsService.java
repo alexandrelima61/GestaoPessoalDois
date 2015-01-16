@@ -11,7 +11,6 @@ import br.com.gerenciapessoal.repository.Usuarios;
 import br.com.gerenciapessoal.util.cdi.CDIServiceLocator;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

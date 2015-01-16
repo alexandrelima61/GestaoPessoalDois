@@ -22,7 +22,7 @@ public class Seguranca {
     public String getNomeUsuario() {
         String nome = null;
 
-        UsuarioSistema usuarioLogado = getNomeUsuarioLogado();
+        UsuarioSistema usuarioLogado = getUsuarioLogado();
 
         if (usuarioLogado != null) {
             nome = usuarioLogado.getUsuario().getNome();
@@ -34,7 +34,7 @@ public class Seguranca {
     public Long getIdUsuario() {
         Long id = null;
 
-        UsuarioSistema usuarioLogado = getNomeUsuarioLogado();
+        UsuarioSistema usuarioLogado = getUsuarioLogado();
 
         if (usuarioLogado != null) {
             id = usuarioLogado.getUsuario().getId();
@@ -45,7 +45,7 @@ public class Seguranca {
 
     @Produces
     @UsuarioLogado
-    public UsuarioSistema getNomeUsuarioLogado() {
+    public UsuarioSistema getUsuarioLogado() {
         UsuarioSistema usuario = null;
 
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) 

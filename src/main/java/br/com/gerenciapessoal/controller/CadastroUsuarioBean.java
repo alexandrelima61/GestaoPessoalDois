@@ -9,15 +9,23 @@ import br.com.gerenciapessoal.model.Grupo;
 import br.com.gerenciapessoal.model.Usuario;
 import br.com.gerenciapessoal.repository.Grupos;
 import br.com.gerenciapessoal.repository.Usuarios;
+import br.com.gerenciapessoal.security.UsuarioLogado;
+import br.com.gerenciapessoal.security.UsuarioSistema;
 import br.com.gerenciapessoal.service.CadastroUsuarioService;
 import br.com.gerenciapessoal.util.jsf.FacesUtil;
+import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -27,7 +35,14 @@ import javax.inject.Named;
 @ViewScoped
 public class CadastroUsuarioBean implements Serializable {
 
-    private Usuario usuario;
+    @Inject
+    private FacesContext facesContext;
+
+    @Inject
+    private HttpServletRequest request;
+
+    @Inject
+    private HttpServletResponse response;
 
     @Inject
     private Usuarios usuarios;
@@ -35,13 +50,20 @@ public class CadastroUsuarioBean implements Serializable {
     @Inject
     private CadastroUsuarioService cadastroUsuarioService;
 
+    @Inject
+    private Grupos grupos;
+
+    @Inject
+    @UsuarioLogado
+    private UsuarioSistema usuarioLogado;
+
     private List<Grupo> gruposDisponiveis;
 
     private String confirmeSenha;
-    private boolean hblBtnSalvar;
 
-    @Inject
-    private Grupos grupos;
+    private Usuario usuario;
+
+    private boolean hblBtnSalvar;
 
     private Grupo novoGrupo;
 
@@ -116,7 +138,6 @@ public class CadastroUsuarioBean implements Serializable {
         this.usuario = cadastroUsuarioService.salvaUsuario(usuario);
         limpar();
         FacesUtil.addInfoMessage("Usuário cadastrado com sucesso!");
-
     }
 
     public void adicionarGrupo() {
@@ -127,10 +148,43 @@ public class CadastroUsuarioBean implements Serializable {
         return this.usuario.getId() != null;
     }
 
-    public void inicializar() {
+    public void inicializar() throws ServletException, IOException {
         if (FacesUtil.isNotPostback()) {
-            gruposDisponiveis = grupos.todos();
+
+            boolean lAdm = true;
+
+            for (Grupo g : usuarioLogado.getUsuario().getGrupos()) {
+                if (g.getDescricao().toUpperCase().equals("ADMINISTRADORES")) {
+                    gruposDisponiveis = grupos.todos();
+                    confirmeSenha = usuarioLogado.getUsuario().getSenha();
+                    lAdm = false;
+                    break;
+                }
+            }
+            if (lAdm) {
+                if (usuario.getId() == null) {
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/AcessoNegado.xhtml");
+                    dispatcher.forward(request, response);
+
+                    facesContext.responseComplete();
+                } else {
+                    gruposDisponiveis = grupos.todos();
+                    confirmeSenha = usuarioLogado.getUsuario().getSenha();
+                }
+            }
         }
+    }
+
+    public boolean isAdm() {
+        boolean lAdm = true;
+
+        for (Grupo g : usuarioLogado.getUsuario().getGrupos()) {
+            if (g.getDescricao().toUpperCase().equals("ADMINISTRADORES")) {
+                lAdm = false;
+                break;
+            }
+        }
+        return lAdm;
     }
 
 }

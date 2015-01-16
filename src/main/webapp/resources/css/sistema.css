@@ -49,6 +49,24 @@ h1 {
     height: 30px;    
 }
 
+.imgErro {
+    width: 150px;
+    height: 150px;
+}
+
+.telemlNegado {
+    width:200px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #000fff;
+}
+
+.telemlnegadoDados {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+}
+
 .linkLogo {
     color: #fff !important;
     font-size: 15px !important;

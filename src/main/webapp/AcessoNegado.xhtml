@@ -15,9 +15,37 @@ and open the template in the editor.
     <ui:define name="titulo">Acesso negado</ui:define>
 
     <ui:define name="corpo">
-        <h1>
-            Você não possui permissão para acessar esta página, consulte o administrador do sistema, para que possa prosseguir.
-        </h1>
-    </ui:define>
+        <div style="text-align: left;width: 80%;">
+            <table class="tbErro">
+                <tr>
+                    <td><h:graphicImage library="images" name="erro.png" styleClass="imgErro"/></td>
+                    <td></td>
+                    <td>
+                        <h1>
+                            Você não possui permissão para acessar esta página, 
+                            consulte o administrador do sistema.
+                        </h1>
+                        <br/>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th class="telemlNegado">
+                                        Telefone
+                                    </th>
+                                    <th class="telemlNegado">
+                                        Email
+                                    </th>
+                                </tr>
+                            </tbody>
+                            <tr>
+                                <td class="telemlnegadoDados">11 99999-9999</td>
+                                <td class="telemlnegadoDados">email@emailadm.com.br</td>
+                            </tr>
 
+                        </table>
+                    </td>                    
+                </tr>                
+            </table>
+        </div>
+    </ui:define>
 </ui:composition>
