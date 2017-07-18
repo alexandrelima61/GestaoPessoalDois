@@ -87,6 +87,7 @@ public class JsfAccessDeniedHandler implements AccessDeniedHandler {
     /**
      * If <tt>true</tt>, causes any redirection URLs to be calculated minus the
      * protocol and context path (defaults to <tt>false</tt>).
+     *
      * @param useRelativeContext
      */
     public void setContextRelative(boolean useRelativeContext) {

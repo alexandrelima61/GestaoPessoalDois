@@ -85,6 +85,7 @@ public class JsfLoginUrlAuthenticationEntryPoint implements AuthenticationEntryP
 
     /**
      * Performs the redirect (or forward) to the login form URL.
+     *
      * @param request
      * @param response
      * @param authException
@@ -166,10 +167,11 @@ public class JsfLoginUrlAuthenticationEntryPoint implements AuthenticationEntryP
     /**
      * Builds a URL to redirect the supplied request to HTTPS. Used to redirect
      * the current request to HTTPS, before doing a forward to the login page.
+     *
      * @param request
-     * @return 
-     * @throws java.io.IOException 
-     * @throws javax.servlet.ServletException 
+     * @return
+     * @throws java.io.IOException
+     * @throws javax.servlet.ServletException
      */
     protected String buildHttpsRedirectUrlForRequest(HttpServletRequest request)
             throws IOException, ServletException {
@@ -203,6 +205,7 @@ public class JsfLoginUrlAuthenticationEntryPoint implements AuthenticationEntryP
      * <code>https</code>, then the client will first be redirected to an https
      * URL, even if <tt>serverSideRedirect</tt>
      * is set to <tt>true</tt>.
+     *
      * @param forceHttps
      */
     public void setForceHttps(boolean forceHttps) {
@@ -217,6 +220,7 @@ public class JsfLoginUrlAuthenticationEntryPoint implements AuthenticationEntryP
      * The URL where the <code>UsernamePasswordAuthenticationFilter</code> login
      * page can be found. Should either be relative to the web-app context path
      * (include a leading {@code /}) or an absolute URL.
+     *
      * @param loginFormUrl
      */
     public void setLoginFormUrl(String loginFormUrl) {

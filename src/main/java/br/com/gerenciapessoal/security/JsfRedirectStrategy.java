@@ -44,13 +44,14 @@ public class JsfRedirectStrategy implements RedirectStrategy {
      * after the request context path. Note that this will result in the loss of
      * protocol information (HTTP or HTTPS), so will cause problems if a
      * redirect is being performed to change to HTTPS, for example.
+     *
      * @param request
      * @param response
      * @param url
      * @throws java.io.IOException
      */
     @Override
-    public void sendRedirect(HttpServletRequest request, 
+    public void sendRedirect(HttpServletRequest request,
             HttpServletResponse response, String url) throws IOException {
         String redirectUrl = calculateRedirectUrl(request.getContextPath(), url);
         redirectUrl = response.encodeRedirectURL(redirectUrl);
@@ -105,6 +106,7 @@ public class JsfRedirectStrategy implements RedirectStrategy {
     /**
      * If <tt>true</tt>, causes any redirection URLs to be calculated minus the
      * protocol and context path (defaults to <tt>false</tt>).
+     *
      * @param useRelativeContext
      */
     public void setContextRelative(boolean useRelativeContext) {

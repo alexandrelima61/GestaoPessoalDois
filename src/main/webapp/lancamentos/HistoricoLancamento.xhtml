@@ -62,19 +62,19 @@
                     <h:outputText value="#{lancamento.conta.banco.numBanco} - #{lancamento.conta.banco.nome}
                                   -#{lancamento.conta.agencia}/#{lancamento.conta.dvAgencia}
                                   -#{lancamento.conta.conta}/#{lancamento.conta.dvConta}"
-                                  style="#{lancamento.tipoMov.tpES.equals('DESPESA') ?'color:red;':'color:blue;'}"/>
+                                  style="#{lancamento.tipoMov.tpes.equals('DESPESA') ?'color:red;':'color:blue;'}"/>
                 </p:column>
 
                 <p:column headerText="Data de Emissão" style="text-align: center; width: 100px">
                     <h:outputText value="#{lancamento.dataEmissao}"
-                                  style="#{lancamento.tipoMov.tpES.equals('DESPESA') ?'color:red;':'color:blue;'}">
+                                  style="#{lancamento.tipoMov.tpes.equals('DESPESA') ?'color:red;':'color:blue;'}">
                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </p:column>
 
                 <p:column headerText="Data da Baixa" style="text-align: center; width: 100px">
                     <h:outputText value="#{lancamento.dataVencimento}"
-                                  style="#{lancamento.tipoMov.tpES.equals('DESPESA') ?'color:red;':'color:blue;'}">
+                                  style="#{lancamento.tipoMov.tpes.equals('DESPESA') ?'color:red;':'color:blue;'}">
                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </p:column>
@@ -83,20 +83,20 @@
 
                 <p:column headerText="Saldo" style="text-align: right; width: 100px">
                     <h:outputText value="#{lancamento.saldo}"
-                                  style="#{lancamento.tipoMov.tpES.equals('DESPESA') ?'color:red;':'color:blue;'}">
+                                  style="#{lancamento.tipoMov.tpes.equals('DESPESA') ?'color:red;':'color:blue;'}">
                         <f:convertNumber type="currency"/>
                     </h:outputText>
                 </p:column>
 
                 <p:column headerText="Valor Total" style="text-align: right; width: 100px">
                     <h:outputText value="#{lancamento.vlTotal}"
-                                  style="#{lancamento.tipoMov.tpES.equals('DESPESA') ?'color:red;':'color:blue;'}">
+                                  style="#{lancamento.tipoMov.tpes.equals('DESPESA') ?'color:red;':'color:blue;'}">
                         <f:convertNumber type="currency"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="Valor Movimentado" style="text-align: right; width: 100px;">
                     <h:outputText value="#{lancamento.valorLanca}" 
-                                  style="#{lancamento.tipoMov.tpES.equals('DESPESA') ?'color:red;':'color:blue;'}">
+                                  style="#{lancamento.tipoMov.tpes.equals('DESPESA') ?'color:red;':'color:blue;'}">
                         <f:convertNumber type="currency"/>
                     </h:outputText>
                 </p:column>

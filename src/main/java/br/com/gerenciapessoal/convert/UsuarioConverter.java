@@ -5,7 +5,6 @@
  */
 package br.com.gerenciapessoal.convert;
 
-
 import br.com.gerenciapessoal.model.Usuario;
 import br.com.gerenciapessoal.repository.Usuarios;
 import br.com.gerenciapessoal.util.cdi.CDIServiceLocator;

@@ -180,7 +180,7 @@ public class Lancamento implements Serializable {
 
     public void valorizaSaldo() {
         BigDecimal vlSaldo = BigDecimal.ZERO;
-        if (this.getTipoMov().getTpES().equals("DESPESA")) {
+        if (this.getTipoMov().getTpes().equals("DESPESA")) {
             vlSaldo = vlSaldo.add(this.getVlTotal().subtract(this.getValorLanca()));
         } else {
             vlSaldo = vlSaldo.add(this.getValorLanca().subtract(this.getVlTotal()));
@@ -192,7 +192,7 @@ public class Lancamento implements Serializable {
         BigDecimal saldoConta = this.getValorLanca();
 
         if (lExtorno) {
-            if (this.getTipoMov().getTpES().equals("DESPESA")) {
+            if (this.getTipoMov().getTpes().equals("DESPESA")) {
                 //Caso extorno devolvo saldo para a conta
                 saldoConta = saldoConta.multiply(new BigDecimal(-1.00));
                 this.getConta().setSaldo(saldoConta.add(this.getConta().getSaldo()));
@@ -203,7 +203,7 @@ public class Lancamento implements Serializable {
 
             }
         } else {
-            if (this.getTipoMov().getTpES().equals("DESPESA")) {
+            if (this.getTipoMov().getTpes().equals("DESPESA")) {
                 //Caso despesa subtraio do saldo da conta
                 this.getConta().setSaldo(this.getConta().getSaldo().add(saldoConta));
             } else {
@@ -222,7 +222,7 @@ public class Lancamento implements Serializable {
     }
 
     public void atualizaTotais() {
-        if (this.getTipoMov().getTpES().equals("DESPESA")) {
+        if (this.getTipoMov().getTpes().equals("DESPESA")) {
             setValorLanca(getValorLanca().multiply(new BigDecimal(-1.0)));
             setVlTotal(getVlTotal().multiply(new BigDecimal(-1.0)));
         }

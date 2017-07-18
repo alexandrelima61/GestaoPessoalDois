@@ -13,13 +13,13 @@ public enum TipoLancamento {
 
     R("RECEITA"), D("DESPESA");
 
-    private String tpES;
+    private final String tpes;
 
-    private TipoLancamento(String tpES) {
-        this.tpES = tpES;
+    private TipoLancamento(String tpes) {
+        this.tpes = tpes;
     }
 
-    public String getTpES() {
-        return tpES;
+    public String getTpes() {
+        return tpes;
     }
 }

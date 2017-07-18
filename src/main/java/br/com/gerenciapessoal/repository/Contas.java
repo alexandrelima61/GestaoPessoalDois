@@ -32,16 +32,12 @@ public class Contas implements Serializable {
 
     @Inject
     private EntityManager manager;
-        
+
     public Seguranca s;
-    private final Long userId;
 
     public Contas() {
         s = CDIServiceLocator.getBean(Seguranca.class);
-        this.userId = s.getIdUsuario();
     }
-    
-    
 
     public Conta porId(Long id) {
         return manager.find(Conta.class, id);
@@ -54,10 +50,10 @@ public class Contas implements Serializable {
     @SuppressWarnings("JPQLValidation")
     public List<Conta> listaConta() {
         try {
-            Usuario u = manager.find(Usuario.class, this.userId);
+            //Usuario u = manager.find(Usuario.class, s.getIdUsuario());
 
             return manager.createQuery("from Conta where usuario_id = :usuario", Conta.class)
-                    .setParameter("usuario", u.getId())
+                    .setParameter("usuario", s.getIdUsuario())
                     .getResultList();
         } catch (NoResultException e) {
             return new ArrayList<>();
@@ -71,9 +67,9 @@ public class Contas implements Serializable {
                 .createAlias("banco", "b")
                 .createAlias("usuario", "u");
 
-        Usuario u = manager.find(Usuario.class, this.userId);
+        //Usuario u = manager.find(Usuario.class, s.getIdUsuario());
 
-        criteria.add(Restrictions.eq("u.id", u.getId()));
+        criteria.add(Restrictions.eq("u.id", s.getIdUsuario()));
 
         if (contaFilter.getBanco() != null) {
             criteria.add(Restrictions.eq("b.id", contaFilter.getBanco().getId()));

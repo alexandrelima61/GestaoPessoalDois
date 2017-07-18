@@ -69,7 +69,7 @@ public class MoviemtacaoConta {
         ChartSeries series = new ChartSeries(rotulo);
 
         for (Date data : valoresPorData.keySet()) {
-            series.set(DATE_FORMAT.format(data), valoresPorData.get(data));
+            series.set(this.DATE_FORMAT.format(data), valoresPorData.get(data));
         }
 
         this.model.addSeries(series);
