@@ -8,7 +8,6 @@ package br.com.gerenciapessoal.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -45,10 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 
             .authorizeRequests()                
-                .antMatchers("/Login.xhtml","/Erro.xhtml","/javax.faces.resource/**").permitAll()
-                .antMatchers("/Home.xhtml","/AcessoNegado.xhtml", "/usuarios/CadastroUsuario.xhtml").authenticated()
-                .antMatchers("/usuarios/PesquisaUsuario.xhtml","/banco/CadastroBanco.xhtml").hasRole("ADMINISTRADORES")
-                .antMatchers("/lancamentos/**","/conta/**","banco/PesquisaBanco.xhtml").hasAnyRole("COMUN","ADMINISTRADORES")
+                .antMatchers("/Login.xhtml","/Erro.xhtml","/javax.faces.resource/**")
+                    .permitAll()
+                .antMatchers("/Home.xhtml","/AcessoNegado.xhtml", "/usuarios/CadastroUsuario.xhtml")
+                    .authenticated()
+                .antMatchers("/usuarios/PesquisaUsuario.xhtml","/banco/CadastroBanco.xhtml")
+                    .hasRole("ADMINISTRADORES")
+                .antMatchers("/lancamentos/**","/conta/**","banco/PesquisaBanco.xhtml")
+                    .hasAnyRole("COMUN","ADMINISTRADORES")
                 .anyRequest().denyAll()
                 .and()
 
