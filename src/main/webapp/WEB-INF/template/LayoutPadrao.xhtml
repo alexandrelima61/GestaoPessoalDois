@@ -22,17 +22,25 @@
                 <h:outputText value="" />
             </f:facet>
         </p:ajaxStatus>
+
         <header>            
-            <div style="float: left">                
-                <h:link outcome="/Home">                    
-                    <h:graphicImage library="images" name="components.png" styleClass="iconLogo"/>                                            
-                </h:link>
-                <span class="linkLogo">
-                    Gestão Pessoal - Financeiro
+            <div style="float: left">  
+                <span style="float: left;margin-right: 5px;">
+                    <h:link outcome="/Home">                    
+                        <h:graphicImage library="images" name="components.png" styleClass="iconLogo"/>                                            
+                    </h:link>
+                </span>
+                <span class="linkLogo" style="float: left;right: 30px;line-height: 30px;
+                      font-weight: bold;">
+                    <h:link outcome="/Home" styleClass="linkLogo">  
+                        Gestão Pessoal - Financeiro
+                    </h:link>
                 </span> 
             </div>
-            <div style="float:right;margin-right: 110px;">
-                <span style="float: left;right: 30px;line-height: 30px; margin-right: 60px;">
+            <div style="float:right;margin-right: 8px;">
+
+                <span style="float: left;right: 30px;line-height: 30px;
+                      margin-right: 5px;">
                     Olá #{seguranca.nomeUsuario}!
                 </span> 
 
@@ -83,6 +91,7 @@
                         </p:submenu>
                     </p:menubar>                       
                 </h:form>
+
             </div>
 
             <div style="clear: both;"></div>
@@ -94,7 +103,8 @@
 
         <p:separator style="margin-top: 20px" />
 
-        <footer>&copy; Gestão Pessoal - Financeiro - <a href="#" target="_blank">J. Alexandre de Lima</a>
+        <footer>
+            &copy; Gestão Pessoal - Financeiro - <a href="#" target="_blank">J. Alexandre de Lima</a>
         </footer>
 
         <script>

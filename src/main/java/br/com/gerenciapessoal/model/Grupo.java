@@ -69,10 +69,7 @@ public class Grupo implements Serializable {
             return false;
         }
         final Grupo other = (Grupo) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
 
 }

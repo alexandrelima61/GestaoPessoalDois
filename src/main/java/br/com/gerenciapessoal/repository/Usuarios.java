@@ -33,7 +33,7 @@ public class Usuarios implements Serializable {
     @Inject
     private EntityManager manager;
 
-    private Seguranca s;
+    private final Seguranca s;
 
     public Usuarios() {
         s = CDIServiceLocator.getBean(Seguranca.class);
